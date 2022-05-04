@@ -19,40 +19,42 @@ interface MapCloudToCache {
     class Base : MapCloudToCache {
 
         override fun mapCloudToCacheLink(cloud: LinkCloud): LinkCache = LinkCache(
-            suggested_link_text = cloud.suggested_link_text,
-            type = cloud.type,
-            url = cloud.url
+            suggested_link_text = cloud.suggested_link_text ?: "",
+            type = cloud.type ?: "",
+            url = cloud.url ?: ""
         )
 
         override fun mapCloudToCacheMovie(cloud: MovieCloud): MovieCache = MovieCache(
-            copyright = cloud.copyright,
-            has_more = cloud.has_more,
-            num_results = cloud.num_results,
-            results = listCloudToCacheResult(cloud.results),
-            status = cloud.status,
+            copyright = cloud.copyright ?: "",
+            has_more = cloud.has_more ?: false,
+            num_results = cloud.num_results ?: 0,
+            results = listCloudToCacheResult(cloud.results ?: emptyList()),
+            status = cloud.status ?: "",
             id = 0
         )
 
         override fun mapCloudToCacheMultimedia(cloud: MultimediaCloud): MultimediaCache =
             MultimediaCache(
-                height = cloud.height,
-                src = cloud.src,
-                type = cloud.type,
-                width = cloud.width
+                height = cloud.height ?: 0,
+                src = cloud.src ?: "",
+                type = cloud.type ?: "",
+                width = cloud.width ?: 0
             )
 
         override fun mapCloudToCacheResult(cloud: ResultCloud): ResultCache = ResultCache(
-            byline = cloud.byline,
-            critics_pick = cloud.critics_pick,
-            date_updated = cloud.date_updated,
-            display_title = cloud.display_title,
-            headline = cloud.headline,
-            link = mapCloudToCacheLink(cloud = cloud.link),
-            mpaa_rating = cloud.mpaa_rating,
-            multimedia = mapCloudToCacheMultimedia(cloud = cloud.multimedia),
-            opening_date = cloud.opening_date,
-            publication_date = cloud.publication_date,
-            summary_short = cloud.summary_short
+            byline = cloud.byline ?: "",
+            critics_pick = cloud.critics_pick ?: 0,
+            date_updated = cloud.date_updated ?: "",
+            display_title = cloud.display_title ?: "",
+            headline = cloud.headline ?: "",
+            link = mapCloudToCacheLink(cloud = cloud.link ?: emptyLinkCloud),
+            mpaa_rating = cloud.mpaa_rating ?: "",
+            multimedia = mapCloudToCacheMultimedia(
+                cloud = cloud.multimedia ?: emptyMultimediaCloud
+            ),
+            opening_date = cloud.opening_date ?: "",
+            publication_date = cloud.publication_date ?: "",
+            summary_short = cloud.summary_short ?: ""
         )
 
         private fun listCloudToCacheMovie(list: List<MovieCloud>)
@@ -68,5 +70,8 @@ interface MapCloudToCache {
                 mapCloudToCacheResult(cloudResult)
             }
         }
+
+        private val emptyLinkCloud = LinkCloud("", "", "")
+        private val emptyMultimediaCloud = MultimediaCloud(0, "", "", 0)
     }
 }

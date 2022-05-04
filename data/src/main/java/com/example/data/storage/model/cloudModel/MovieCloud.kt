@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName
 
 data class MovieCloud(
     @SerializedName("copyright")
-    val copyright: String,
+    val copyright: String?,
     @SerializedName("has_more")
-    val has_more: Boolean,
+    val has_more: Boolean?,
     @SerializedName("num_results")
-    val num_results: Int,
+    val num_results: Int?,
     @SerializedName("results")
-    val results: List<ResultCloud>,
+    val results: List<ResultCloud>?,
     @SerializedName("status")
-    val status: String
+    val status: String?
 )

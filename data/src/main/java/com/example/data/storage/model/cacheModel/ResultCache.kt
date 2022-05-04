@@ -9,7 +9,7 @@ data class ResultCache(
     val link: LinkCache,
     val mpaa_rating: String,
     val multimedia: MultimediaCache,
-    val opening_date: String,
+    val opening_date: String = "",
     val publication_date: String,
     val summary_short: String
 )
