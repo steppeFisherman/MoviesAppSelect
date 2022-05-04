@@ -29,7 +29,6 @@ class MainFragmentViewModel @Inject constructor(
     init {
         when (val result = fetchItemsUseCase.execute()) {
             is Result.Success -> {
-                Log.d("AAA", "init: ${result.movieDomain.value?.size}")
                 mAllMovies = result.movieDomain.map { list ->
                     list.map { mapper.mapDomainToAppMovie(it) }
                 } as MutableLiveData<List<MovieApp>>

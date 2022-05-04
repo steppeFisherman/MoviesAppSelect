@@ -25,6 +25,7 @@ interface MapCacheToDomain {
         )
 
         override fun mapCacheToDomainMovie(cache: MovieCache): MovieDomain = MovieDomain(
+            id = cache.id,
             copyright = cache.copyright,
             has_more = cache.has_more,
             num_results = cache.num_results,

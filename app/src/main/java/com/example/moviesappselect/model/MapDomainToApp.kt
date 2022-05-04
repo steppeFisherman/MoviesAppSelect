@@ -21,6 +21,7 @@ interface MapDomainToApp {
         )
 
         override fun mapDomainToAppMovie(domain: MovieDomain): MovieApp = MovieApp(
+            id = domain.id,
             copyright = domain.copyright,
             has_more = domain.has_more,
             num_results = domain.num_results,

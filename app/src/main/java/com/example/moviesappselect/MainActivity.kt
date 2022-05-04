@@ -2,6 +2,7 @@ package com.example.moviesappselect
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.moviesappselect.databinding.ActivityMainBinding
@@ -17,6 +18,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
+        /**
+        Changes statusBar text/icons color, when the statusBar background is white or transparent
+        (this works with API level 21 and higher)
+         */
+        WindowInsetsControllerCompat(window, window.decorView)
+            .isAppearanceLightStatusBars = true
         setContentView(mBinding.root)
         initialise()
     }

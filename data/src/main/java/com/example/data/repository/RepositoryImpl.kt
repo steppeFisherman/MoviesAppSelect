@@ -1,6 +1,5 @@
 package com.example.data.repository
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.data.net.CloudData
 import com.example.data.storage.room.AppRoomDao
@@ -44,8 +43,6 @@ class RepositoryImpl(
         dispatchers.launchIO(scope = scope) {
             val cacheList = appDao.fetchAllMoviesBySuspend()
             if (cacheList.isNullOrEmpty()) {
-                Log.d("AAA", "cacheList.isNullOrEmpty:")
-
                 val cloud = cloudData.fetchCloud()
                 val cache = mapperCloudToCache.mapCloudToCacheMovie(cloud)
                 appDao.insertMovie(cache)
@@ -53,7 +50,6 @@ class RepositoryImpl(
                     item.value = listOf(mapperCacheToDomain.mapCacheToDomainMovie(cache))
                 }
             } else {
-                Log.d("AAA", "cacheList.isNOT_NullOrEmpty:")
                 dispatchers.launchUI(this) {
                     item.value = cacheList.map { dataCache ->
                         mapperCacheToDomain.mapCacheToDomainMovie(dataCache)
