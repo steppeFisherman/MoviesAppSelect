@@ -31,4 +31,11 @@
         <item name="cornerSize">5%</item>
     </style>
 
+    <style name="SplashFragment" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:statusBarColor">@color/main_background</item>
+    </style>
+
 </resources>

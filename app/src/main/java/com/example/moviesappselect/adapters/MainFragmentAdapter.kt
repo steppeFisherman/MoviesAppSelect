@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviesappselect.databinding.MainItemRawBinding
-import com.example.moviesappselect.model.MovieApp
+import com.example.moviesappselect.model.ResultApp
 import com.example.moviesappselect.utils.LoadImage
 
 class MainFragmentAdapter(private val loadImage: LoadImage) :
     RecyclerView.Adapter<MainFragmentAdapter.MainHolder>() {
 
-    private var mList = emptyList<MovieApp>()
+    private var mList = emptyList<ResultApp>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         val view = MainItemRawBinding
@@ -26,10 +26,10 @@ class MainFragmentAdapter(private val loadImage: LoadImage) :
         holder.binding.apply {
             loadImage.load(
                 holder.binding.movieImg,
-                mList[position].results[position].multimedia.src
+                mList[position].multimedia.src
             )
-            holder.binding.movieTitle.text = mList[position].results[position].display_title
-            holder.binding.movieDesc.text = mList[position].results[position].summary_short
+            holder.binding.movieTitle.text = mList[position].display_title
+            holder.binding.movieDesc.text = mList[position].summary_short
         }
     }
 
@@ -37,7 +37,7 @@ class MainFragmentAdapter(private val loadImage: LoadImage) :
 
     class MainHolder(val binding: MainItemRawBinding) : RecyclerView.ViewHolder(binding.root)
 
-    fun setData(newList: List<MovieApp>) {
+    fun setData(newList: List<ResultApp>) {
         val diffUtil = MainFragmentDiffUtil(mList, newList)
         val diffResult = DiffUtil.calculateDiff(diffUtil)
         mList = newList

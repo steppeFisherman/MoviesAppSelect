@@ -1,10 +1,11 @@
-package com.example.moviesappselect
+package com.example.moviesappselect.screens
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.example.moviesappselect.R
 import com.example.moviesappselect.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_MoviesAppSelect)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         /**
         Changes statusBar text/icons color, when the statusBar background is white or transparent

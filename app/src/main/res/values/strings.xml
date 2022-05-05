@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MoviesAppSelect</string>
+    <string name="app_name">MovieAppSelect</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hello_main_fragment">Hello main fragment</string>
@@ -8,4 +8,6 @@
     <string name="null_pointer_exception">NullPointerException</string>
     <string name="arithmetic_exception">ArithmeticException</string>
     <string name="something_went_wrong">Something Went Wrong</string>
+    <string name="please_wait">Please wait…</string>
+    <string name="please_log_in">Please log in as a registered user…</string>
 </resources>

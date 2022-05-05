@@ -8,3 +8,9 @@ fun View.showSnackLong(message: Int) {
         .show()
     this.textAlignment = View.TEXT_ALIGNMENT_CENTER
 }
+
+fun View.showSnackIndefinite(message: Int) {
+    Snackbar.make(this, message, Snackbar.LENGTH_INDEFINITE)
+        .show()
+    this.textAlignment = View.TEXT_ALIGNMENT_CENTER
+}

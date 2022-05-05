@@ -7,7 +7,8 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/margin_16dp"
     android:layout_marginEnd="@dimen/margin_16dp"
-    android:layout_marginTop="@dimen/margin_8dp"
+    android:layout_marginTop="@dimen/margin_4dp"
+    android:layout_marginBottom="@dimen/margin_4dp"
     android:backgroundTint="@color/white"
     app:cardCornerRadius="@dimen/margin_8dp"
     app:cardElevation="@dimen/card_elevation_zero">
@@ -22,7 +23,7 @@
             android:layout_width="@dimen/width_img"
             android:layout_height="@dimen/height_img"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/margin_6dp"
+            android:layout_marginTop="@dimen/margin_8dp"
             android:scaleType="fitXY"
             app:shapeAppearanceOverlay="@style/Favourite.ShapeAppearanceOverlay.Round_8"
             tools:ignore="ContentDescription"
@@ -41,9 +42,9 @@
             android:id="@+id/movie_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_6dp"
-            android:layout_marginEnd="@dimen/margin_6dp"
-            android:layout_marginBottom="@dimen/margin_6dp"
+            android:layout_marginStart="@dimen/margin_8dp"
+            android:layout_marginEnd="@dimen/margin_8dp"
+            android:layout_marginBottom="@dimen/margin_8dp"
             android:textAppearance="@style/txt_default"
             tools:text="Description" />
     </LinearLayout>
