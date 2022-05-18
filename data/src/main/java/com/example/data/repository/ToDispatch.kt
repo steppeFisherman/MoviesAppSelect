@@ -5,7 +5,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-
 interface ToDispatch {
 
     fun launchUI(scope: CoroutineScope, block: suspend CoroutineScope.() -> Unit): Job

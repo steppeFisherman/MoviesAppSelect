@@ -57,7 +57,7 @@ interface MapCloudToCache {
             summary_short = cloud.summary_short ?: ""
         )
 
-        private fun listCloudToCacheMovie(list: List<MovieCloud>)
+        private  fun listCloudToCacheMovie(list: List<MovieCloud>)
                 : List<MovieCache> {
             return list.map { cloudMovie ->
                 mapCloudToCacheMovie(cloudMovie)
