@@ -1,6 +1,7 @@
 package com.example.data.net
 
 import com.example.data.storage.model.cloudModel.MovieCloud
+import retrofit2.Response
 import javax.inject.Inject
 
 interface CloudData {

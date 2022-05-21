@@ -38,50 +38,34 @@ class RepositoryImpl(
             )
         }
 
-    /**
-    Always fetch data from cache after initial retrieve
-     */
-//    private fun fetchFromCloud(): MutableLiveData<List<MovieDomain>> {
-//        val item = MutableLiveData<List<MovieDomain>>()
-//        dispatchers.launchIO(scope = scope) {
-//            val cacheList = appDao.fetchAllMoviesBySuspend()
-//            if (cacheList.isNullOrEmpty()) {
-//                val cloud = cloudData.fetchCloud()
-//                val cache = mapperCloudToCache.mapCloudToCacheMovie(cloud)
-//                appDao.insertMovie(cache)
-//                dispatchers.launchUI(this) {
-//                    item.value = listOf(mapperCacheToDomain.mapCacheToDomainMovie(cache))
-//                }
-//            } else {
-//                dispatchers.launchUI(this) {
-//                    item.value = cacheList.map { dataCache ->
-//                        mapperCacheToDomain.mapCacheToDomainMovie(dataCache)
-//                    }
-//                }
-//            }
-//        }
-//        return item
-//    }
-
-    /**
-    Always fetch new data from cloud, in case of error retrieves from cache
-     */
-    private fun fetchFromCloud(): MutableLiveData<List<MovieDomain>> {
-        val item = MutableLiveData<List<MovieDomain>>()
+    init {
         dispatchers.launchIO(scope = scope) {
             val cloud = cloudData.fetchCloud()
             val cache = mapperCloudToCache.mapCloudToCacheMovie(cloud)
             appDao.insertMovie(cache)
-            val newData = mapperCacheToDomain.mapCacheToDomainMovie(cache)
-            if (!cloud.results.isNullOrEmpty()) {
+        }
+    }
+
+
+    /**
+    Always fetch data from cache after initial retrieve
+     */
+    private fun fetchFromCloud(): MutableLiveData<List<MovieDomain>> {
+        val item = MutableLiveData<List<MovieDomain>>()
+        dispatchers.launchIO(scope = scope) {
+            val cacheList = appDao.fetchAllMoviesBySuspend()
+            if (cacheList.isNullOrEmpty()) {
+                val cloud = cloudData.fetchCloud()
+                val cache = mapperCloudToCache.mapCloudToCacheMovie(cloud)
+                appDao.insertMovie(cache)
                 dispatchers.launchUI(this) {
-                    item.value = listOf(newData)
+                    item.value = listOf(mapperCacheToDomain.mapCacheToDomainMovie(cache))
                 }
             } else {
-                val cacheList = appDao.fetchAllMoviesBySuspend()
-                val oldData = cacheList.map { mapperCacheToDomain.mapCacheToDomainMovie(it) }
                 dispatchers.launchUI(this) {
-                    item.value = oldData
+                    item.value = cacheList.map { dataCache ->
+                        mapperCacheToDomain.mapCacheToDomainMovie(dataCache)
+                    }
                 }
             }
         }
