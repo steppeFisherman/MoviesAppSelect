@@ -14,3 +14,13 @@ fun View.showSnackIndefinite(message: Int) {
         .show()
     this.textAlignment = View.TEXT_ALIGNMENT_CENTER
 }
+
+
+
+
+
+
+
+
+
+

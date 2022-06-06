@@ -1,10 +1,9 @@
 package com.example.data.repository
 
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import com.example.data.net.CloudData
 import com.example.data.storage.room.AppRoomDao
 import com.example.domain.models.ErrorType
-import com.example.domain.models.MovieDomain
 import com.example.domain.models.Result
 import com.example.domain.repository.Repository
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -27,7 +26,13 @@ class RepositoryImpl(
 
     override val allMovies: Result
         get() = try {
-            Result.Success(fetchFromCloud())
+            Result.Success(
+                appDao.fetchAllMovies().map { listMovieCache ->
+                    listMovieCache.map { movieCache ->
+                        mapperCacheToDomain.mapCacheToDomainMovie(movieCache)
+                    }
+                }
+            )
         } catch (e: Exception) {
             Result.Fail(
                 when (e) {
@@ -38,37 +43,11 @@ class RepositoryImpl(
             )
         }
 
-    init {
+    override fun refreshData() {
         dispatchers.launchIO(scope = scope) {
             val cloud = cloudData.fetchCloud()
             val cache = mapperCloudToCache.mapCloudToCacheMovie(cloud)
             appDao.insertMovie(cache)
         }
-    }
-
-
-    /**
-    Always fetch data from cache after initial retrieve
-     */
-    private fun fetchFromCloud(): MutableLiveData<List<MovieDomain>> {
-        val item = MutableLiveData<List<MovieDomain>>()
-        dispatchers.launchIO(scope = scope) {
-            val cacheList = appDao.fetchAllMoviesBySuspend()
-            if (cacheList.isNullOrEmpty()) {
-                val cloud = cloudData.fetchCloud()
-                val cache = mapperCloudToCache.mapCloudToCacheMovie(cloud)
-                appDao.insertMovie(cache)
-                dispatchers.launchUI(this) {
-                    item.value = listOf(mapperCacheToDomain.mapCacheToDomainMovie(cache))
-                }
-            } else {
-                dispatchers.launchUI(this) {
-                    item.value = cacheList.map { dataCache ->
-                        mapperCacheToDomain.mapCacheToDomainMovie(dataCache)
-                    }
-                }
-            }
-        }
-        return item
     }
 }

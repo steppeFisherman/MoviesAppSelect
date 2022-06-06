@@ -7,10 +7,14 @@ import javax.inject.Inject
 interface FetchUseCase {
 
     fun execute(): Result
+    fun refreshData()
 
     class Base @Inject constructor(private val repository: Repository) : FetchUseCase {
-        override fun execute(): Result {
-            return repository.allMovies
+
+        override fun execute(): Result = repository.allMovies
+
+        override fun refreshData() {
+            repository.refreshData()
         }
     }
 }

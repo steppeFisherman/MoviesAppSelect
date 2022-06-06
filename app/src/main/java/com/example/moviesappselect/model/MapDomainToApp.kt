@@ -8,7 +8,7 @@ import com.example.domain.models.ResultDomain
 interface MapDomainToApp {
 
     fun mapDomainToAppLink(domain: LinkDomain): LinkApp
-    fun mapDomainToAppMovie(domain: MovieDomain): MovieApp
+    fun mapDomainToAppMovie(domain: MovieDomain): MovieApp?
     fun mapDomainToAppMultimedia(domain: MultimediaDomain): MultimediaApp
     fun mapDomainToAppResult(domain: ResultDomain): ResultApp
 
