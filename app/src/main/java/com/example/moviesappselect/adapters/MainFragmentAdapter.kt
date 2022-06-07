@@ -1,6 +1,7 @@
 package com.example.moviesappselect.adapters
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -38,6 +39,7 @@ class MainFragmentAdapter(private val loadImage: LoadImage) :
     class MainHolder(val binding: MainItemRawBinding) : RecyclerView.ViewHolder(binding.root)
 
     fun setData(newList: List<ResultApp>) {
+        Log.d("AAA", "setData in MainFragmentAdapter")
         val diffUtil = MainFragmentDiffUtil(mList, newList)
         val diffResult = DiffUtil.calculateDiff(diffUtil)
         mList = newList

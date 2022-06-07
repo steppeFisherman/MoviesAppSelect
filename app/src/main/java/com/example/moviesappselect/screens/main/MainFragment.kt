@@ -1,9 +1,12 @@
 package com.example.moviesappselect.screens.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.example.moviesappselect.R
 import com.example.moviesappselect.adapters.MainFragmentAdapter
@@ -23,10 +26,17 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         vm.allMovies.observe(viewLifecycleOwner) { listMovieApp ->
+            Log.d("AAA", "observe listMovieApp in MainFragment: ${listMovieApp.size}")
             val adapter = MainFragmentAdapter(LoadImage.Base())
             mBinding.mainFragmentRv.adapter = adapter
-            if (listMovieApp.isNotEmpty()) adapter.setData(listMovieApp[0].results)
+            if (listMovieApp.isNullOrEmpty()){
+                mBinding.progressBar.visibility = View.VISIBLE
+            }else{
+                mBinding.progressBar.visibility = View.INVISIBLE
+                adapter.setData(listMovieApp[0].results)
+            }
         }
 
         vm.error.observe(viewLifecycleOwner) {

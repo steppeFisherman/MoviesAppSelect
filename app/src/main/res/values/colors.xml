@@ -12,4 +12,5 @@
     <color name="colorGrey_light">#dddddd</color>
     <color name="colorGrey">#B3B3C3</color>
     <color name="status_bar">#F8F8F8</color>
+    <color name="deep_purple">#FF00FB</color>
 </resources>

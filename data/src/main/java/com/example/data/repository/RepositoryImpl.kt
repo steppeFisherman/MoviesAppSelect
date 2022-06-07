@@ -18,11 +18,22 @@ class RepositoryImpl(
     private val mapperCacheToDomain: MapCacheToDomain,
     private val mapperCloudToCache: MapCloudToCache,
     private val cloudData: CloudData,
-    private val dispatchers: ToDispatch,
+    dispatchers: ToDispatch,
 ) : Repository {
 
     private val exceptionHandler = CoroutineExceptionHandler { _, _ -> }
     private val scope = CoroutineScope(Job() + exceptionHandler)
+
+    init {
+        dispatchers.launchIO(scope = scope) {
+            val cloud = cloudData.fetchCloud()
+            if (cloud.results?.isNotEmpty() == true) {
+                val cache = mapperCloudToCache.mapCloudToCacheMovie(cloud)
+                appDao.deleteMovie()
+                appDao.insertMovie(cache)
+            }
+        }
+    }
 
     override val allMovies: Result
         get() = try {
@@ -42,12 +53,4 @@ class RepositoryImpl(
                 }
             )
         }
-
-    override fun refreshData() {
-        dispatchers.launchIO(scope = scope) {
-            val cloud = cloudData.fetchCloud()
-            val cache = mapperCloudToCache.mapCloudToCacheMovie(cloud)
-            appDao.insertMovie(cache)
-        }
-    }
 }
