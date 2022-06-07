@@ -1,6 +1,5 @@
 package com.example.moviesappselect.screens.main
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -29,8 +28,6 @@ class MainFragmentViewModel @Inject constructor(
     init {
         when (val result = fetchItemsUseCase.execute()) {
             is Result.Success -> {
-                Log.d("AAA", "mProgress = false in viewModel")
-
                 mAllMovies = result.movieDomain.map { list ->
                     list.map { mapper.mapDomainToAppMovie(it) }
                 } as MutableLiveData<List<MovieApp>>

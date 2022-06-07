@@ -28,7 +28,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         vm.allMovies.observe(viewLifecycleOwner) { listMovieApp ->
-            Log.d("AAA", "observe listMovieApp in MainFragment: ${listMovieApp.size}")
             val adapter = MainFragmentAdapter(LoadImage.Base())
             mBinding.mainFragmentRv.adapter = adapter
             if (listMovieApp.isNullOrEmpty()){
