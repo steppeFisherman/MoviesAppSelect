@@ -6,9 +6,9 @@ import javax.inject.Inject
 
 interface CloudData {
 
-    suspend fun fetchCloud(): MovieCloud
+    suspend fun fetchCloud(): Response<MovieCloud>
 
     class Base @Inject constructor(private val service: Service) : CloudData {
-        override suspend fun fetchCloud(): MovieCloud = service.fetchCloud()
+        override suspend fun fetchCloud(): Response<MovieCloud> = service.fetchCloud()
     }
 }

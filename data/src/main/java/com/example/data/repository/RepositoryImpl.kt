@@ -1,9 +1,10 @@
 package com.example.data.repository
 
-import androidx.lifecycle.map
+import androidx.lifecycle.MutableLiveData
 import com.example.data.net.CloudData
 import com.example.data.storage.room.AppRoomDao
 import com.example.domain.models.ErrorType
+import com.example.domain.models.MovieDomain
 import com.example.domain.models.Result
 import com.example.domain.repository.Repository
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -18,32 +19,33 @@ class RepositoryImpl(
     private val mapperCacheToDomain: MapCacheToDomain,
     private val mapperCloudToCache: MapCloudToCache,
     private val cloudData: CloudData,
-    dispatchers: ToDispatch,
+    private val dispatchers: ToDispatch,
 ) : Repository {
 
     private val exceptionHandler = CoroutineExceptionHandler { _, _ -> }
     private val scope = CoroutineScope(Job() + exceptionHandler)
 
-    init {
-        dispatchers.launchIO(scope = scope) {
-            val cloud = cloudData.fetchCloud()
-            if (cloud.results?.isNotEmpty() == true) {
-                val cache = mapperCloudToCache.mapCloudToCacheMovie(cloud)
-                appDao.deleteMovie()
-                appDao.insertMovie(cache)
-            }
-        }
-    }
-
     override val allMovies: Result
         get() = try {
-            Result.Success(
-                appDao.fetchAllMovies().map { listMovieCache ->
-                    listMovieCache.map { movieCache ->
-                        mapperCacheToDomain.mapCacheToDomainMovie(movieCache)
-                    }
+            val listMovieDomain = MutableLiveData<List<MovieDomain>>()
+
+            dispatchers.launchIO(scope = scope) {
+                val movieCache = appDao.fetchAllMoviesBySuspend()
+                try {
+                    val cloud = cloudData.fetchCloud()
+                    val cache = mapperCloudToCache.mapCloudToCacheMovie(cloud.body()!!)
+                    appDao.deleteMovie()
+                    appDao.insertMovie(cache)
+                    listMovieDomain
+                        .postValue(listOf(mapperCacheToDomain.mapCacheToDomainMovie(cache)))
+                } catch (e: Exception) {
+                    val movieDomain =
+                        movieCache.map { mapperCacheToDomain.mapCacheToDomainMovie(it) }
+                    listMovieDomain.postValue(movieDomain)
                 }
-            )
+            }
+
+            Result.Success(listMovieDomain)
         } catch (e: Exception) {
             Result.Fail(
                 when (e) {

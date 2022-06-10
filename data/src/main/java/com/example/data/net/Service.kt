@@ -13,5 +13,5 @@ interface Service {
     }
 
     @GET("svc/movies/v2/reviews/all.json")
-    suspend fun fetchCloud(@Query("api-key") key: String = API_KEY): MovieCloud
+    suspend fun fetchCloud(@Query("api-key") key: String = API_KEY): Response<MovieCloud>
 }
